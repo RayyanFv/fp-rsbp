@@ -1,0 +1,377 @@
+
+{# templates/analysis/dashboard.html #}
+{% extends "base.html" %}
+
+{% block title %}Dashboard Analisis Stunting{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-100">
+    <!-- Main Header -->
+    <div class="bg-white shadow">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-bold text-gray-900">
+                Dashboard Analisis Stunting Kabupaten Batang
+            </h1>
+            <p class="mt-1 text-sm text-gray-500">
+                Analisis dan visualisasi data stunting di Kabupaten Batang
+            </p>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <!-- Loading State -->
+        <div id="loadingState" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white p-8 rounded-lg shadow-xl flex items-center space-x-4">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                <p class="text-lg font-medium text-gray-700">Menganalisis data...</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" class="hidden">
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium text-red-800">Terjadi Error</h3>
+                        <p class="mt-1 text-sm text-red-700" id="errorMessage"></p>
+                        <button onclick="location.reload()" class="mt-2 bg-red-100 px-3 py-1 rounded-md text-red-700 text-sm hover:bg-red-200">
+                            Coba Lagi
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="analysisContent" class="hidden space-y-6">
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Total Kecamatan -->
+                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Total Kecamatan</p>
+                            <p class="text-2xl font-semibold text-gray-900" id="totalKecamatan">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Balita -->
+                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-green-100 text-green-600">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Total Balita</p>
+                            <p class="text-2xl font-semibold text-gray-900" id="totalBalita">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total Stunting -->
+                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Total Stunting</p>
+                            <p class="text-2xl font-semibold text-gray-900" id="totalStunting">-</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rata-rata Stunting -->
+                <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center">
+                        <div class="p-3 rounded-full bg-red-100 text-red-600">
+                            <svg class="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-500">Rata-rata Stunting</p>
+                            <p class="text-2xl font-semibold text-gray-900" id="avgStunting">-</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Results -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Cluster Analysis -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">Analisis Cluster</h3>
+                        <p class="mt-1 text-sm text-gray-500">
+                            Pengelompokan wilayah berdasarkan tingkat stunting
+                        </p>
+                    </div>
+                    <div class="p-6">
+                        <div id="clusteringStats" class="space-y-4">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualization -->
+                <!-- <div class="bg-white rounded-lg shadow">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">Visualisasi Cluster</h3>
+                        <p class="mt-1 text-sm text-gray-500">
+                            Penentuan nilai k menggunakan elbow method dan silhouette Score
+                        </p>
+                    </div>
+                    <div class="p-6">
+                        <img id="clusterVisualization" 
+                             src="{{ url_for('static', filename='img/clustering_metrics.png') }}" 
+                             alt="Visualisasi Cluster"
+                             class="w-full h-auto rounded-lg">
+                    </div>
+                </div> -->
+                <div class="bg-white rounded-lg shadow">
+                    <div class="px-6 py-4 border-b border-gray-200">
+                        <h3 class="text-lg font-medium text-gray-900">Visualisasi Hasil Clustering</h3>
+                        <p class="mt-1 text-sm text-gray-500">
+                            Persebaran data dalam bentuk grafik
+                        </p>
+                    </div>
+                    <div class="p-6">
+                        <img id="clusterVisualization" 
+                             src="{{ url_for('static', filename='img/clustering_results.png') }}" 
+                             alt="Visualisasi Cluster"
+                             class="w-full h-auto rounded-lg">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Map -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-900">Peta Persebaran Stunting</h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Visualisasi geografis persebaran stunting di Kabupaten Batang
+                    </p>
+                </div>
+                <div class="p-6">
+                    <!-- Map Loading State -->
+                    <div id="mapLoadingState" class="hidden">
+                        <div class="flex items-center justify-center p-12">
+                            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                            <span class="ml-3 text-gray-600">Loading map...</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Error State -->
+                    <div id="mapErrorState" class="hidden">
+                        <div class="text-center p-12">
+                            <svg class="mx-auto h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                            <p class="mt-2 text-red-600" id="mapErrorMessage">Failed to load map</p>
+                            <button onclick="loadMap()" class="mt-4 px-4 py-2 bg-red-100 text-red-700 rounded-md hover:bg-red-200">
+                                Try Again
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Map Container -->
+                    <div id="mapContainer" class="w-full h-[600px] rounded-lg overflow-hidden">
+                        <iframe id="mapFrame" class="w-full h-full" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const analysisContent = document.getElementById('analysisContent');
+    const mapLoadingState = document.getElementById('mapLoadingState');
+    const mapErrorState = document.getElementById('mapErrorState');
+    const mapFrame = document.getElementById('mapFrame');
+
+    function showLoading() {
+        loadingState.classList.remove('hidden');
+        errorState.classList.add('hidden');
+        analysisContent.classList.add('hidden');
+    }
+
+    function showError(message) {
+        loadingState.classList.add('hidden');
+        errorState.classList.remove('hidden');
+        analysisContent.classList.add('hidden');
+        document.getElementById('errorMessage').textContent = message;
+    }
+
+    function showContent() {
+        loadingState.classList.add('hidden');
+        errorState.classList.add('hidden');
+        analysisContent.classList.remove('hidden');
+    }
+
+    function formatNumber(num) {
+        return new Intl.NumberFormat('id-ID').format(num);
+    }
+
+    function updateStatCard(id, value) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = value;
+            element.classList.add('animate-pulse');
+            setTimeout(() => element.classList.remove('animate-pulse'), 500);
+        }
+    }
+
+    function loadMap() {
+        mapLoadingState.classList.remove('hidden');
+        mapErrorState.classList.add('hidden');
+        mapFrame.classList.add('hidden');
+
+        fetch('/analysis/map')
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to load map');
+                return response.text();
+            })
+            .then(html => {
+                mapFrame.srcdoc = html;
+                mapLoadingState.classList.add('hidden');
+                mapFrame.classList.remove('hidden');
+            })
+            .catch(error => {
+                mapLoadingState.classList.add('hidden');
+                mapErrorState.classList.remove('hidden');
+                document.getElementById('mapErrorMessage').textContent = error.message;
+            });
+    }
+
+    function updateClusteringStats(stats) {
+        const container = document.getElementById('clusteringStats');
+        let html = '';
+        
+        Object.entries(stats).forEach(([cluster, data], index) => {
+            const colors = ['blue', 'green', 'yellow', 'red', 'purple'];
+            const color = colors[index % colors.length];
+            
+            html += `
+                <div class="bg-${color}-50 rounded-lg p-4">
+                    <h4 class="text-${color}-700 font-semibold text-lg mb-2">${cluster}</h4>
+                    <div class="grid grid-cols-2 gap-4">
+            `;
+            
+            Object.entries(data).forEach(([key, value]) => {
+                html += `
+                    <div>
+                        <dt class="text-${color}-600 text-sm font-medium">${key}</dt>
+                        <dd class="text-${color}-900 text-base">${value}</dd>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                </div>
+            `;
+        });
+        
+        container.innerHTML = html;
+    }
+
+    // Initialize dashboard data
+    function initializeDashboard() {
+        showLoading();
+        fetch('/analysis/process')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Update summary statistics with animation
+                updateStatCard('totalKecamatan', formatNumber(data.summary.total_kecamatan));
+                updateStatCard('totalBalita', formatNumber(data.summary.total_balita));
+                updateStatCard('totalStunting', formatNumber(data.summary.total_stunting));
+                updateStatCard('avgStunting', data.summary.avg_stunting);
+
+                // Update clustering statistics
+                updateClusteringStats(data.stats);
+
+                // Show content and initialize map
+                showContent();
+                loadMap();
+
+                // Refresh visualization image
+                const vizImg = document.getElementById('clusterVisualization');
+                if (vizImg) {
+                    vizImg.src = `${vizImg.src}?t=${new Date().getTime()}`; // Prevent caching
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError(error.message || 'Terjadi kesalahan saat memproses data');
+            });
+    }
+
+    // Add refresh functionality
+    window.refreshDashboard = function() {
+        initializeDashboard();
+    }
+
+    // Add export functionality
+    window.exportData = function() {
+        fetch('/analysis/export')
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = 'stunting_analysis.xlsx';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => {
+                console.error('Export error:', error);
+                alert('Gagal mengekspor data: ' + error.message);
+            });
+    }
+
+    // Initialize the dashboard when page loads
+    initializeDashboard();
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        // Refresh dashboard with Ctrl+R
+        if (e.ctrlKey && e.key === 'r') {
+            e.preventDefault();
+            refreshDashboard();
+        }
+    });
+
+    // Add auto-refresh every 5 minutes
+    setInterval(refreshDashboard, 5 * 60 * 1000);
+});
+</script>
+{% endblock %}

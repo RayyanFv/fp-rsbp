@@ -1,0 +1,15 @@
+{# app/templates/index.html #}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-4xl font-bold mb-4">Selamat Datang di Sistem Analisis Stunting</h1>
+    <p class="text-xl mb-8">Kabupaten Batang</p>
+    
+    <!-- Tautan langsung ke Dashboard -->
+    <a href="{{ url_for('analysis.index') }}" 
+       class="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg">
+        Lihat Dashboard
+    </a>
+</div>
+{% endblock %}

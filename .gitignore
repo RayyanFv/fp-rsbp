@@ -1,0 +1,30 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Environment
+venv/
+.env
+*.env
+
+# Logs
+*.log
+
+# Flask
+instance/
+*.sqlite3
+
+# Models
+*.h5
+
+# IDE and Editor Settings
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Instance Directory
+instance/

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 py-6">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-white rounded-lg shadow-lg">
+            <!-- Header Section -->
+            <div class="p-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-800">Deteksi Real-Time Malnutrisi</h2>
+                <p class="text-sm text-gray-500 mt-1">Nyalakan kamera untuk mendeteksi malnutrisi menggunakan model computer vision.</p>
+            </div>
+
+            <!-- Video Stream Section -->
+            <div class="p-4">
+                <div class="bg-black rounded-lg overflow-hidden relative" style="min-height: 480px;">
+                    <video id="webcam" autoplay playsinline class="w-full h-full rounded-lg"></video>
+                    <div id="result-overlay" class="absolute top-4 left-4 bg-black bg-opacity-70 text-white p-3 rounded-lg">
+                        Status: <span id="status" class="font-semibold">Menunggu...</span><br>
+                        Confidence: <span id="confidence" class="font-semibold">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls Section -->
+            <div class="p-4 border-t border-gray-200">
+                <div class="flex justify-center space-x-4">
+                    <button id="startBtn" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Mulai Kamera
+                    </button>
+                    <button id="stopBtn" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" disabled>
+                        Hentikan Kamera
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const videoElement = document.getElementById('webcam');
+    const startButton = document.getElementById('startBtn');
+    const stopButton = document.getElementById('stopBtn');
+    const statusElement = document.getElementById('status');
+    const confidenceElement = document.getElementById('confidence');
+    let stream = null;
+
+    startButton.addEventListener('click', async () => {
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoElement.srcObject = stream;
+            startButton.disabled = true;
+            stopButton.disabled = false;
+            startPrediction();
+        } catch (err) {
+            statusElement.textContent = "Error: Gagal mengakses kamera";
+            console.error('Error accessing camera:', err);
+        }
+    });
+
+    stopButton.addEventListener('click', () => {
+        if (stream) {
+            stream.getTracks().forEach(track => track.stop());
+            videoElement.srcObject = null;
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            statusElement.textContent = "Kamera berhenti";
+            confidenceElement.textContent = "0%";
+        }
+    });
+
+    async function startPrediction() {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        async function predict() {
+            if (stream && videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                // Set canvas dimensions to match video
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                
+                // Draw video frame to canvas
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                
+                // Convert canvas to base64 image
+                const imageData = canvas.toDataURL('image/jpeg');
+                const base64Data = imageData.split(',')[1];
+                console.log('Image data length:', base64Data.length);
+
+                try {
+                    const response = await fetch('/vision/predict', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ image: imageData })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        statusElement.textContent = result.status;
+                        confidenceElement.textContent = `${(result.confidence * 100).toFixed(2)}%`;
+                    } else {
+                        statusElement.textContent = "Error: Gagal melakukan prediksi";
+                        confidenceElement.textContent = "0%";
+                    }
+                } catch (err) {
+                    console.error('Error during prediction:', err);
+                    statusElement.textContent = "Error: Kesalahan jaringan";
+                }
+            }
+
+            // Schedule next prediction
+            if (stream) {
+                requestAnimationFrame(predict);
+            }
+        }
+
+        predict();
+    }
+</script>
+{% endblock %}

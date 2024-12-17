@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_5732c38615a1db86f34e10c0774ea539 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div style="position: fixed; bottom: 50px; left: 50px; z-index:1000; 
+                        background-color: white; padding: 15px; border-radius: 5px;
+                        box-shadow: 0 0 15px rgba(0,0,0,0.2); max-width: 300px;">
+                <h4 style='margin-bottom: 10px; border-bottom: 2px solid #2c3e50; 
+                          padding-bottom: 5px;'>Tingkat Risiko Stunting</h4>
+            
+                <div style='margin-bottom: 5px;'>
+                    <span style='color: #d73027; font-size: 20px;'>●</span>
+                    <b>Sangat Tinggi</b><br>
+                    <div style='margin-left: 20px; font-size: 0.9em;'>
+                        Rata-rata: 21.6%<br>
+                        Jumlah Kecamatan: 7
+                    </div>
+                </div>
+                
+                <div style='margin-bottom: 5px;'>
+                    <span style='color: #fc8d59; font-size: 20px;'>●</span>
+                    <b>Tinggi</b><br>
+                    <div style='margin-left: 20px; font-size: 0.9em;'>
+                        Rata-rata: 12.3%<br>
+                        Jumlah Kecamatan: 1
+                    </div>
+                </div>
+                
+                <div style='margin-bottom: 5px;'>
+                    <span style='color: #fee08b; font-size: 20px;'>●</span>
+                    <b>Sedang</b><br>
+                    <div style='margin-left: 20px; font-size: 0.9em;'>
+                        Rata-rata: 8.6%<br>
+                        Jumlah Kecamatan: 4
+                    </div>
+                </div>
+                
+                <div style='margin-bottom: 5px;'>
+                    <span style='color: #91cf60; font-size: 20px;'>●</span>
+                    <b>Rendah</b><br>
+                    <div style='margin-left: 20px; font-size: 0.9em;'>
+                        Rata-rata: 8.2%<br>
+                        Jumlah Kecamatan: 2
+                    </div>
+                </div>
+                
+                <div style='margin-bottom: 5px;'>
+                    <span style='color: #1a9850; font-size: 20px;'>●</span>
+                    <b>Sangat Rendah</b><br>
+                    <div style='margin-left: 20px; font-size: 0.9em;'>
+                        Rata-rata: 3.1%<br>
+                        Jumlah Kecamatan: 1
+                    </div>
+                </div>
+                </div>
+    
+            <div class="folium-map" id="map_5732c38615a1db86f34e10c0774ea539" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_5732c38615a1db86f34e10c0774ea539 = L.map(
+                "map_5732c38615a1db86f34e10c0774ea539",
+                {
+                    center: [-6.9075, 109.7268],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 11,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d6f8828d94d34a50ecd8d921c4f452c0 = L.tileLayer(
+                "https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"http://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"http://cartodb.com/attributions\"\u003eCartoDB\u003c/a\u003e, CartoDB \u003ca href =\"http://cartodb.com/attributions\"\u003eattributions\u003c/a\u003e", "detectRetina": false, "maxNativeZoom": 13, "maxZoom": 13, "minZoom": 10, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+            var circle_marker_116e8533161d0e348ce55fc49be76d85 = L.circleMarker(
+                [-7.0382, 109.8307],
+                {"bubblingMouseEvents": true, "color": "#d73027", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d73027", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.704, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_307e275ea7ea6b027fad3cfae7093116 = L.popup({"maxWidth": 300});
+
+        
+            var html_6d8f7ca775d9d7ed08a0a5063b4a3e1d = $(`<div id="html_6d8f7ca775d9d7ed08a0a5063b4a3e1d" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>BANDAR</h4>                         <div style='background-color: #d73027; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sangat Tinggi                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 18.5%<br>                             <b>Jumlah Balita:</b> 2,397<br>                             <b>Total Stunting:</b> 444<br>                         </div>                     </div>                     </div>`)[0];
+            popup_307e275ea7ea6b027fad3cfae7093116.setContent(html_6d8f7ca775d9d7ed08a0a5063b4a3e1d);
+        
+
+        circle_marker_116e8533161d0e348ce55fc49be76d85.bindPopup(popup_307e275ea7ea6b027fad3cfae7093116)
+        ;
+
+        
+    
+    
+            circle_marker_116e8533161d0e348ce55fc49be76d85.bindTooltip(
+                `<div>
+                     BANDAR - Sangat Tinggi
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_813a006a4bfe4de6983469ced9a9d1ac = L.circleMarker(
+                [-6.9743, 109.9668],
+                {"bubblingMouseEvents": true, "color": "#1a9850", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1a9850", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.618, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_69ef9de0c2cad6a3938ff2e7451bd600 = L.popup({"maxWidth": 300});
+
+        
+            var html_a6ade7ed34702f92f26747e4372369c5 = $(`<div id="html_a6ade7ed34702f92f26747e4372369c5" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>BANYUPUTIH</h4>                         <div style='background-color: #1a9850; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sangat Rendah                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 3.1%<br>                             <b>Jumlah Balita:</b> 679<br>                             <b>Total Stunting:</b> 21<br>                         </div>                     </div>                     </div>`)[0];
+            popup_69ef9de0c2cad6a3938ff2e7451bd600.setContent(html_a6ade7ed34702f92f26747e4372369c5);
+        
+
+        circle_marker_813a006a4bfe4de6983469ced9a9d1ac.bindPopup(popup_69ef9de0c2cad6a3938ff2e7451bd600)
+        ;
+
+        
+    
+    
+            circle_marker_813a006a4bfe4de6983469ced9a9d1ac.bindTooltip(
+                `<div>
+                     BANYUPUTIH - Sangat Rendah
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_756bd0be3259dde50ee06407d229acba = L.circleMarker(
+                [-6.9075, 109.7268],
+                {"bubblingMouseEvents": true, "color": "#fc8d59", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fc8d59", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.456, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_d19ab6605450abebe03d0a54a9371407 = L.popup({"maxWidth": 300});
+
+        
+            var html_8ca128a9636adbae6c30b42afa99b5ca = $(`<div id="html_8ca128a9636adbae6c30b42afa99b5ca" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>BATANG</h4>                         <div style='background-color: #fc8d59; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Tinggi                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 12.3%<br>                             <b>Jumlah Balita:</b> 5,782<br>                             <b>Total Stunting:</b> 710<br>                         </div>                     </div>                     </div>`)[0];
+            popup_d19ab6605450abebe03d0a54a9371407.setContent(html_8ca128a9636adbae6c30b42afa99b5ca);
+        
+
+        circle_marker_756bd0be3259dde50ee06407d229acba.bindPopup(popup_d19ab6605450abebe03d0a54a9371407)
+        ;
+
+        
+    
+    
+            circle_marker_756bd0be3259dde50ee06407d229acba.bindTooltip(
+                `<div>
+                     BATANG - Tinggi
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_86df75fc578b541a52124d89cb063dd7 = L.circleMarker(
+                [-7.0991, 109.9121],
+                {"bubblingMouseEvents": true, "color": "#d73027", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d73027", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.728, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_11dd47552efe26950f3b75ec33170867 = L.popup({"maxWidth": 300});
+
+        
+            var html_0563b208a7dc46e59d193444e4e0c249 = $(`<div id="html_0563b208a7dc46e59d193444e4e0c249" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>BAWANG</h4>                         <div style='background-color: #d73027; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sangat Tinggi                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 28.6%<br>                             <b>Jumlah Balita:</b> 2,074<br>                             <b>Total Stunting:</b> 594<br>                         </div>                     </div>                     </div>`)[0];
+            popup_11dd47552efe26950f3b75ec33170867.setContent(html_0563b208a7dc46e59d193444e4e0c249);
+        
+
+        circle_marker_86df75fc578b541a52124d89cb063dd7.bindPopup(popup_11dd47552efe26950f3b75ec33170867)
+        ;
+
+        
+    
+    
+            circle_marker_86df75fc578b541a52124d89cb063dd7.bindTooltip(
+                `<div>
+                     BAWANG - Sangat Tinggi
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_91b8a62f1e040234c4cc4b49e5b97d7a = L.circleMarker(
+                [-7.0598, 109.8383],
+                {"bubblingMouseEvents": true, "color": "#d73027", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d73027", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.438, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_e2a6baf36d217ff356ce11dcd9336a41 = L.popup({"maxWidth": 300});
+
+        
+            var html_7209958f012a330da344e14185682d3e = $(`<div id="html_7209958f012a330da344e14185682d3e" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>BLADO</h4>                         <div style='background-color: #d73027; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sangat Tinggi                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 22.2%<br>                             <b>Jumlah Balita:</b> 2,753<br>                             <b>Total Stunting:</b> 611<br>                         </div>                     </div>                     </div>`)[0];
+            popup_e2a6baf36d217ff356ce11dcd9336a41.setContent(html_7209958f012a330da344e14185682d3e);
+        
+
+        circle_marker_91b8a62f1e040234c4cc4b49e5b97d7a.bindPopup(popup_e2a6baf36d217ff356ce11dcd9336a41)
+        ;
+
+        
+    
+    
+            circle_marker_91b8a62f1e040234c4cc4b49e5b97d7a.bindTooltip(
+                `<div>
+                     BLADO - Sangat Tinggi
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_12198cfdadd7db60879828628528740a = L.circleMarker(
+                [-6.9493, 109.9597],
+                {"bubblingMouseEvents": true, "color": "#d73027", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d73027", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.306000000000001, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_07b3561e803741f9920c68fbcedaef8d = L.popup({"maxWidth": 300});
+
+        
+            var html_32cfe8aef991e8bff18b324a7929de2c = $(`<div id="html_32cfe8aef991e8bff18b324a7929de2c" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>GRINGSING</h4>                         <div style='background-color: #d73027; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sangat Tinggi                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 16.5%<br>                             <b>Jumlah Balita:</b> 1,385<br>                             <b>Total Stunting:</b> 229<br>                         </div>                     </div>                     </div>`)[0];
+            popup_07b3561e803741f9920c68fbcedaef8d.setContent(html_32cfe8aef991e8bff18b324a7929de2c);
+        
+
+        circle_marker_12198cfdadd7db60879828628528740a.bindPopup(popup_07b3561e803741f9920c68fbcedaef8d)
+        ;
+
+        
+    
+    
+            circle_marker_12198cfdadd7db60879828628528740a.bindTooltip(
+                `<div>
+                     GRINGSING - Sangat Tinggi
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_bec5326e02f251fe833c7bf27ed547de = L.circleMarker(
+                [-6.9329, 109.7673],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.708, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_daa00b48c84f4c502c98dd9aefef0b76 = L.popup({"maxWidth": 300});
+
+        
+            var html_9d0af5c6f4ba29e1dce8310891ac3a76 = $(`<div id="html_9d0af5c6f4ba29e1dce8310891ac3a76" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>KANDEMAN</h4>                         <div style='background-color: #91cf60; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Rendah                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 8.5%<br>                             <b>Jumlah Balita:</b> 3,468<br>                             <b>Total Stunting:</b> 296<br>                         </div>                     </div>                     </div>`)[0];
+            popup_daa00b48c84f4c502c98dd9aefef0b76.setContent(html_9d0af5c6f4ba29e1dce8310891ac3a76);
+        
+
+        circle_marker_bec5326e02f251fe833c7bf27ed547de.bindPopup(popup_daa00b48c84f4c502c98dd9aefef0b76)
+        ;
+
+        
+    
+    
+            circle_marker_bec5326e02f251fe833c7bf27ed547de.bindTooltip(
+                `<div>
+                     KANDEMAN - Rendah
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_e630dabed128932fa2f0c8ea821f0bbe = L.circleMarker(
+                [-6.9995, 109.9001],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.818, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_52790df6ebee52d1196edeab73a0a6ad = L.popup({"maxWidth": 300});
+
+        
+            var html_9cb8e701737d108e89f2a6c81424abb3 = $(`<div id="html_9cb8e701737d108e89f2a6c81424abb3" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>LIMPUNG</h4>                         <div style='background-color: #fee08b; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sedang                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 9.1%<br>                             <b>Jumlah Balita:</b> 1,904<br>                             <b>Total Stunting:</b> 173<br>                         </div>                     </div>                     </div>`)[0];
+            popup_52790df6ebee52d1196edeab73a0a6ad.setContent(html_9cb8e701737d108e89f2a6c81424abb3);
+        
+
+        circle_marker_e630dabed128932fa2f0c8ea821f0bbe.bindPopup(popup_52790df6ebee52d1196edeab73a0a6ad)
+        ;
+
+        
+    
+    
+            circle_marker_e630dabed128932fa2f0c8ea821f0bbe.bindTooltip(
+                `<div>
+                     LIMPUNG - Sedang
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_e2aa35d97033544c2ab0eddaa76e1bdb = L.circleMarker(
+                [-7.0134, 109.8534],
+                {"bubblingMouseEvents": true, "color": "#d73027", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d73027", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.5, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_5e7418a052f6296f52024b9197bb9f16 = L.popup({"maxWidth": 300});
+
+        
+            var html_dcccc39f82556040ccb56557d0e881ae = $(`<div id="html_dcccc39f82556040ccb56557d0e881ae" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>PECALUNGAN</h4>                         <div style='background-color: #d73027; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sangat Tinggi                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 22.5%<br>                             <b>Jumlah Balita:</b> 1,591<br>                             <b>Total Stunting:</b> 358<br>                         </div>                     </div>                     </div>`)[0];
+            popup_5e7418a052f6296f52024b9197bb9f16.setContent(html_dcccc39f82556040ccb56557d0e881ae);
+        
+
+        circle_marker_e2aa35d97033544c2ab0eddaa76e1bdb.bindPopup(popup_5e7418a052f6296f52024b9197bb9f16)
+        ;
+
+        
+    
+    
+            circle_marker_e2aa35d97033544c2ab0eddaa76e1bdb.bindTooltip(
+                `<div>
+                     PECALUNGAN - Sangat Tinggi
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_95d0720029d703813685f6f00fd7569a = L.circleMarker(
+                [-7.0962, 109.8876],
+                {"bubblingMouseEvents": true, "color": "#d73027", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d73027", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.214, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_9e8d56ce9199f9d578bfd67ee60a70ba = L.popup({"maxWidth": 300});
+
+        
+            var html_ae6f955eacc26860bfc99e7450e84fb7 = $(`<div id="html_ae6f955eacc26860bfc99e7450e84fb7" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>REBAN</h4>                         <div style='background-color: #d73027; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sangat Tinggi                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 21.1%<br>                             <b>Jumlah Balita:</b> 2,563<br>                             <b>Total Stunting:</b> 540<br>                         </div>                     </div>                     </div>`)[0];
+            popup_9e8d56ce9199f9d578bfd67ee60a70ba.setContent(html_ae6f955eacc26860bfc99e7450e84fb7);
+        
+
+        circle_marker_95d0720029d703813685f6f00fd7569a.bindPopup(popup_9e8d56ce9199f9d578bfd67ee60a70ba)
+        ;
+
+        
+    
+    
+            circle_marker_95d0720029d703813685f6f00fd7569a.bindTooltip(
+                `<div>
+                     REBAN - Sangat Tinggi
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_99f82c0cd9b82d74080fe067553ee456 = L.circleMarker(
+                [-6.9717, 109.8815],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.836, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_f8dc54fcf0213e183b83c465c230eaf6 = L.popup({"maxWidth": 300});
+
+        
+            var html_539c022aa868d18213bb31004c007fd3 = $(`<div id="html_539c022aa868d18213bb31004c007fd3" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>SUBAH</h4>                         <div style='background-color: #fee08b; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sedang                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 9.2%<br>                             <b>Jumlah Balita:</b> 2,681<br>                             <b>Total Stunting:</b> 246<br>                         </div>                     </div>                     </div>`)[0];
+            popup_f8dc54fcf0213e183b83c465c230eaf6.setContent(html_539c022aa868d18213bb31004c007fd3);
+        
+
+        circle_marker_99f82c0cd9b82d74080fe067553ee456.bindPopup(popup_f8dc54fcf0213e183b83c465c230eaf6)
+        ;
+
+        
+    
+    
+            circle_marker_99f82c0cd9b82d74080fe067553ee456.bindTooltip(
+                `<div>
+                     SUBAH - Sedang
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_e35517a5e67e75e62751d767939775df = L.circleMarker(
+                [-7.064, 109.8815],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.524000000000001, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_d7bf8288053d1a75dc96c9d94b330705 = L.popup({"maxWidth": 300});
+
+        
+            var html_bb5a14604ff2f7c06273e0c82c3819ca = $(`<div id="html_bb5a14604ff2f7c06273e0c82c3819ca" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>TERSONO</h4>                         <div style='background-color: #fee08b; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sedang                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 7.6%<br>                             <b>Jumlah Balita:</b> 2,205<br>                             <b>Total Stunting:</b> 168<br>                         </div>                     </div>                     </div>`)[0];
+            popup_d7bf8288053d1a75dc96c9d94b330705.setContent(html_bb5a14604ff2f7c06273e0c82c3819ca);
+        
+
+        circle_marker_e35517a5e67e75e62751d767939775df.bindPopup(popup_d7bf8288053d1a75dc96c9d94b330705)
+        ;
+
+        
+    
+    
+            circle_marker_e35517a5e67e75e62751d767939775df.bindTooltip(
+                `<div>
+                     TERSONO - Sedang
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_b8eb5b0651ade08fa42b7341bcfcd149 = L.circleMarker(
+                [-6.9307, 109.8524],
+                {"bubblingMouseEvents": true, "color": "#d73027", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#d73027", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.396, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_8b82223067dfdecd853199471e26a4aa = L.popup({"maxWidth": 300});
+
+        
+            var html_bf3036d47b827acf38c1b9698e979853 = $(`<div id="html_bf3036d47b827acf38c1b9698e979853" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>TULIS</h4>                         <div style='background-color: #d73027; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sangat Tinggi                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 22.0%<br>                             <b>Jumlah Balita:</b> 1,788<br>                             <b>Total Stunting:</b> 393<br>                         </div>                     </div>                     </div>`)[0];
+            popup_8b82223067dfdecd853199471e26a4aa.setContent(html_bf3036d47b827acf38c1b9698e979853);
+        
+
+        circle_marker_b8eb5b0651ade08fa42b7341bcfcd149.bindPopup(popup_8b82223067dfdecd853199471e26a4aa)
+        ;
+
+        
+    
+    
+            circle_marker_b8eb5b0651ade08fa42b7341bcfcd149.bindTooltip(
+                `<div>
+                     TULIS - Sangat Tinggi
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_7d7123339df8dce078c9418f02e358a0 = L.circleMarker(
+                [-6.9343, 109.789],
+                {"bubblingMouseEvents": true, "color": "#91cf60", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#91cf60", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.574, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_3b98ddf9974988de83804ce536f79a9e = L.popup({"maxWidth": 300});
+
+        
+            var html_c62fee493e3380ece35c4852a143fd7a = $(`<div id="html_c62fee493e3380ece35c4852a143fd7a" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>WARUNGASEM</h4>                         <div style='background-color: #91cf60; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Rendah                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 7.9%<br>                             <b>Jumlah Balita:</b> 3,685<br>                             <b>Total Stunting:</b> 290<br>                         </div>                     </div>                     </div>`)[0];
+            popup_3b98ddf9974988de83804ce536f79a9e.setContent(html_c62fee493e3380ece35c4852a143fd7a);
+        
+
+        circle_marker_7d7123339df8dce078c9418f02e358a0.bindPopup(popup_3b98ddf9974988de83804ce536f79a9e)
+        ;
+
+        
+    
+    
+            circle_marker_7d7123339df8dce078c9418f02e358a0.bindTooltip(
+                `<div>
+                     WARUNGASEM - Rendah
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var circle_marker_7c49143aa3c790e6bda569523b26c447 = L.circleMarker(
+                [-7.018, 109.8012],
+                {"bubblingMouseEvents": true, "color": "#fee08b", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fee08b", "fillOpacity": 0.7, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.722, "stroke": true, "weight": 2}
+            ).addTo(map_5732c38615a1db86f34e10c0774ea539);
+        
+    
+        var popup_d8b317f9a85e22a246789cd7c165fa53 = L.popup({"maxWidth": 300});
+
+        
+            var html_6106e042de55551c2ca69fc4d844d111 = $(`<div id="html_6106e042de55551c2ca69fc4d844d111" style="width: 100.0%; height: 100.0%;">                     <div style='min-width: 200px; font-family: Arial, sans-serif;'>                         <h4 style='margin-bottom: 10px; color: #2c3e50;'>WONOTUNGGAL</h4>                         <div style='background-color: #fee08b; color: white; padding: 5px;                                    border-radius: 3px; margin-bottom: 10px;'>                             <b>Tingkat Risiko:</b> Sedang                         </div>                         <div style='line-height: 1.5;'>                             <b>Persentase Stunting:</b> 8.6%<br>                             <b>Jumlah Balita:</b> 2,347<br>                             <b>Total Stunting:</b> 202<br>                         </div>                     </div>                     </div>`)[0];
+            popup_d8b317f9a85e22a246789cd7c165fa53.setContent(html_6106e042de55551c2ca69fc4d844d111);
+        
+
+        circle_marker_7c49143aa3c790e6bda569523b26c447.bindPopup(popup_d8b317f9a85e22a246789cd7c165fa53)
+        ;
+
+        
+    
+    
+            circle_marker_7c49143aa3c790e6bda569523b26c447.bindTooltip(
+                `<div>
+                     WONOTUNGGAL - Sedang
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>

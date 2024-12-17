@@ -1,0 +1,78 @@
+{# templates/base.html #}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sistem Analisis Stunting{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    {% block styles %}{% endblock %}
+</head>
+<body class="bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo and Navigation Links -->
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <a href="{{ url_for('main.index') }}" class="text-2xl font-bold text-blue-600">
+                            Stunting Analytics
+                        </a>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="{{ url_for('analysis.index') }}" 
+                           class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 
+                                  inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Dashboard
+                        </a>
+                        <a href="{{ url_for('main.chatbot') }}" 
+                           class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 
+                                  inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Chatbot
+                        </a>
+                        <a href="{{ url_for('main.vision') }}" 
+                           class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 
+                                  inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Vision Detector
+                        </a>
+                        <a href="{{ url_for('upload.upload') }}" 
+                           class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 
+                                  inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Check
+                        </a>
+                        <!-- Add more navigation links here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+                {% for category, message in messages %}
+                    <div class="rounded-md p-4 mb-4 {% if category == 'error' %}bg-red-50 text-red-800{% else %}bg-blue-50 text-blue-800{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    {% block content %}{% endblock %}
+
+    <!-- Footer -->
+    <footer class="bg-white mt-12">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="text-center text-gray-500 text-sm">
+                © 2024 Sistem Analisis Stunting Kabupaten Batang. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>
